@@ -1,0 +1,95 @@
+using System;
+using System.Collections.Generic;
+
+namespace UniversityApp2
+{
+    class Person
+    {
+        public string Name { get; set; }
+
+        public Person(string name)
+        {
+            Name = name;
+        }
+
+        public virtual void DisplayInfo()
+        {
+            Console.WriteLine($"Person Name: {Name}");
+        }
+    }
+
+    class Student : Person
+    {
+        public int StudentId { get; set; }
+
+        public Student(string name, int studentId) : base(name)
+        {
+            StudentId = studentId;
+        }
+
+        public override void DisplayInfo()
+        {
+            Console.WriteLine($"Student Name: {Name}, ID: {StudentId}");
+        }
+    }
+
+    class Employee : Person
+    {
+        public double Salary { get; set; }
+
+        public Employee(string name, double salary) : base(name)
+        {
+            Salary = salary;
+        }
+
+        public override void DisplayInfo()
+        {
+            Console.WriteLine($"Employee Name: {Name}, Salary: {Salary}");
+        }
+    }
+
+    class Teacher : Employee
+    {
+        public string CourseName { get; set; }
+
+        public Teacher(string name, double salary, string courseName) : base(name, salary)
+        {
+            CourseName = courseName;
+        }
+
+        public override void DisplayInfo()
+        {
+            Console.WriteLine($"Teacher Name: {Name}, Salary: {Salary}, Course: {CourseName}");
+        }
+    }
+
+    class Program
+    {
+        // Method that accepts Person and calls DisplayInfo()
+        static void PrintPersonInfo(Person p)
+        {
+            p.DisplayInfo();
+        }
+
+        static void Main(string[] args)
+        {
+            List<Person> people = new List<Person>
+            {
+                new Person("Saeed"),
+                new Student("Mona", 1002),
+                new Employee("Khalid", 3500),
+                new Teacher("Dr. Omar", 6000, "Algorithms")
+            };
+
+            foreach (var p in people)
+            {
+                Console.WriteLine($"Runtime Type: {p.GetType().Name}");
+                p.DisplayInfo(); // Polymorphic call
+                Console.WriteLine("-------------------");
+            }
+
+            Console.WriteLine("\n--- Testing Method Accepting Person ---");
+            PrintPersonInfo(new Student("Nora", 1005));
+        }
+    }
+}
